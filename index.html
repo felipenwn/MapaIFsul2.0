@@ -4,27 +4,76 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mapa Interativo</title>
+    <title>Mapa Interativo Campus</title>
 
-    <!-- CSS do Leaflet --->
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- CSS do Leaflet -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
         integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
 
-    <!-- Nosso CSS --->
+    <!-- Nosso CSS -->
     <link rel="stylesheet" href="style.css">
 </head>
 
-<body>
-    <!-- Container do Mapa --->
-    <div id="map"></div>
+<body class="relative w-screen h-screen overflow-hidden bg-gray-900 font-sans">
 
-    <!-- ADMIN ONLY --->
-    <div>shift + click para copiar coordenadas</div>
+    <!-- MAPA VIEW -->
+    <div id="map-container" class="absolute inset-0 w-full h-full z-10 transition-opacity duration-500">
+        <div id="map" class="w-full h-full cursor-crosshair"></div>
 
-    <!-- Script do Leaflet --->
+        <!-- ADMIN ONLY -->
+        <div
+            class="absolute bottom-4 left-4 z-[1000] bg-black/60 backdrop-blur-sm text-white px-3 py-1.5 rounded-md text-xs pointer-events-none shadow-lg border border-white/10 uppercase tracking-wider font-semibold">
+            shift + click: Copiar Coord
+        </div>
+    </div>
+
+    <!-- BUILDING VIEW (Hidden by default) -->
+    <div id="building-view" class="absolute inset-0 w-full h-full z-20 hidden opacity-0 bg-black">
+        <!-- Fundo Real do Prédio -->
+        <div class="absolute inset-0 w-full h-full">
+            <img id="building-bg"
+                src="https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&q=80&w=2000"
+                class="w-full h-full object-cover opacity-90 transition-transform duration-[10s] ease-out scale-105"
+                alt="Recepção do Prédio">
+            <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/20"></div>
+        </div>
+
+        <!-- Header & Controles -->
+        <div class="absolute top-0 left-0 w-full p-6 z-50 flex justify-between items-start pointer-events-none">
+            <button id="btn-back"
+                class="pointer-events-auto bg-white/90 backdrop-blur-md text-gray-900 px-6 py-3 rounded-full shadow-2xl font-bold hover:bg-white hover:scale-105 transition-all flex items-center gap-3 group border border-gray-200">
+                <svg class="w-5 h-5 text-indigo-600 group-hover:-translate-x-1.5 transition-transform" fill="none"
+                    stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"
+                        d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+                </svg>
+                Voltar ao Mapa
+            </button>
+
+            <div
+                class="pointer-events-auto bg-black/50 backdrop-blur-md text-white px-6 py-3 rounded-2xl border border-white/10 text-right">
+                <h2 id="building-title" class="text-2xl font-bold tracking-tight">Prédio 1</h2>
+                <p class="text-white/70 text-sm font-medium">Andar Térreo - Recepção</p>
+            </div>
+        </div>
+
+        <!-- Personagens Container -->
+        <div id="characters-container" class="absolute inset-0 w-full h-full pointer-events-none">
+            <!-- Injetados via JS -->
+        </div>
+    </div>
+
+    <!-- Script do Leaflet -->
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
         integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
-    <!-- Nosso Script --->
+
+    <!-- GSAP Core & Plugins -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+
+    <!-- Nosso Script -->
     <script src="./script.js"></script>
 </body>
 
